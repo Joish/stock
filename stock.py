@@ -4,14 +4,18 @@ Created on Sun Jan 28 12:25:12 2018
 
 @author: Joish
 """
+import timeit
+
+intial = timeit.default_timer()
+
 import numpy as np
 import tensorflow as tf
 import random as rn
-    
 import os
+
 os.environ['PYTHONHASHSEED'] = '0'
     
-np.random.seed(44)
+np.random.seed(47)
     
 rn.seed(12345)
     
@@ -58,12 +62,11 @@ model.add(Dense(units = 1))
 
 model.compile(optimizer = 'adam', loss = 'mean_squared_error')
 
-from datetime import datetime
-start=datetime.now()
+start=timeit.default_timer()
 
 model.fit(Xtrain, Ytrain, epochs = 50, batch_size = 32)
 
-time = datetime.now()-start
+time = timeit.default_timer()-start
 
 #model.save('my_model_05.h5')
 
@@ -91,13 +94,6 @@ import math
 error = math.sqrt(mean_squared_error(testX,pred))
 percent = error/(sum(testX)/testX.shape[0])
 percent = percent*100
-
-print('-------------------------------------------')
-print ('RMSE:'+str(error))
-print ('Percentage:'+str(percent[0])+' %')
-print('-------------------------------------------')
-print ('Time for Training:'+str(time))
-print('-------------------------------------------')
 
 xplot = []
 yrplot=[]
@@ -132,3 +128,13 @@ plot({
                 }
      }
     )
+
+final = timeit.default_timer()-intial    
+print('-------------------------------------------')
+print ('RMSE:'+str(error))
+print ('Model Performance :'+str(percent[0])+' %')
+print('-------------------------------------------')
+print('LOG REPORT:')
+print('TOTAL RUNTIME:'+str(final) +' sec')
+print ('Time for Training:'+str(time)+' sec')
+print('-------------------------------------------')
